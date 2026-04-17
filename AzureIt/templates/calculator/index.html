@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Django Calculator</title>
+    <link rel="stylesheet" href="/static/calculator/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <h1>Django Calculator</h1>
+      <p class="sub">Use this app to test Docker and Azure deployment.</p>
+
+      <form method="post" class="card">
+        {% csrf_token %}
+        <label>
+          First number
+          <input type="number" name="first" step="any" required />
+        </label>
+
+        <label>
+          Operation
+          <select name="operation">
+            <option value="add">Add</option>
+            <option value="subtract">Subtract</option>
+            <option value="multiply">Multiply</option>
+            <option value="divide">Divide</option>
+          </select>
+        </label>
+
+        <label>
+          Second number
+          <input type="number" name="second" step="any" required />
+        </label>
+
+        <button type="submit">Calculate</button>
+      </form>
+
+      {% if error %}
+      <p class="error">{{ error }}</p>
+      {% endif %}
+
+      {% if result != None %}
+      <p class="result">Result: {{ result }}</p>
+      {% endif %}
+    </main>
+  </body>
+  </html>
