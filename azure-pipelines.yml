@@ -14,23 +14,23 @@ pool:
   name: Default
 
 steps:
-  - task: UsePythonVersion@0
-    inputs:
-      versionSpec: '3.11'
-    displayName: Use Python 3.11
+  - script: |
+      where py
+      py -3.11 --version
+    displayName: Verify local Python 3.11
 
   - script: |
-      python -m pip install --upgrade pip
-      pip install -r requirements.txt
+      py -3.11 -m pip install --upgrade pip
+      py -3.11 -m pip install -r requirements.txt
     workingDirectory: AzureIt
     displayName: Install dependencies
 
   - script: |
-      python -m unittest tests/test_main_unittest.py -v
+      py -3.11 -m unittest tests/test_main_unittest.py -v
     workingDirectory: AzureIt
     displayName: Run Python unit tests
 
   - script: |
-      python manage.py test calculator -v 2
+      py -3.11 manage.py test calculator -v 2
     workingDirectory: AzureIt
     displayName: Run Django app tests
