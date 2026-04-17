@@ -1,20 +1,36 @@
 trigger:
-- main
+  branches:
+    include:
+      - main
+      - master
+
+pr:
+  branches:
+    include:
+      - main
+      - master
 
 pool:
-  vmImage: 'ubuntu-latest'
+  name: Default
 
 steps:
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '3.11'
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.11'
+    displayName: Use Python 3.11
 
-- script: |
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-  displayName: 'Install dependencies'
+  - script: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt
+    workingDirectory: AzureIt
+    displayName: Install dependencies
 
-- script: |
-    pip install pytest
-    pytest
-  displayName: 'Run tests with pytest'
+  - script: |
+      python -m unittest tests/test_main_unittest.py -v
+    workingDirectory: AzureIt
+    displayName: Run Python unit tests
+
+  - script: |
+      python manage.py test calculator -v 2
+    workingDirectory: AzureIt
+    displayName: Run Django app tests
